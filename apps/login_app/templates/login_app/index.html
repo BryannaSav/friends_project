@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Welcome!</h1>
+        <!-- Registation Table********************************************************************************** -->
+        <h2>Registration</h2>
+        <!-- Error Message display -->
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <form action="/register" method="post">
+            {%csrf_token%}
+            <label name="name">Name:</label>
+            <input type="text" name="name"><br>
+
+            <label name="alian">Alias:</label>
+            <input type="text" name="alias"><br>
+
+            <label name="email">Email:</label>
+            <input type="text" name="email"><br>
+
+            <label name="password">Password:</label>
+            <input type="text" name="password"><br>
+
+            <label name="c_password">Confirm Password:</label>
+            <input type="text" name="c_password"><br>
+            <span style="font-size: 12px">*Password must be at least 8 characters long, and contain at least 1 capital letter and number.</span><br>
+
+            <label name="dob">Date of Birth:</label>
+            <input type="date" name="dob" min="1900-01-01" max={{date}}><br>
+
+            <input type="submit" value="Register">
+        </form>
+        <!-- Login table******************************************************************************************** -->
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            {%csrf_token%}
+        
+            <label name="email">Email:</label>
+            <input type="text" name="email"><br>
+
+            <label name="password">Password:</label>
+            <input type="text" name="password"><br>
+
+            <input type="submit" value="Login">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- Header ****************************************************************************************************** -->
+        <h1 style="display : inline">Hello, {{request.session.alias}}! </h1>|
+        <a href="/logout">Logout</a>
+        <!-- Friend List ************************************************************************************************* -->
+        <h3>Here is the list of your friends:</h3>
+        <table border="1">
+            <tr>
+                <th>Alias</th>
+                <th>Action</th>
+            </tr>
+            {% for user in users %}
+                {% if user in you.friends.all %}
+                    <tr>
+                        <td>{{user.alias}}</td>
+                        <td>
+                            <a href="/home/show/{{user.id}}">View Profile</a>
+                            <span>|</span>
+                            <a href="/home/removeFriend/{{user.id}}">Remove as Friend</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <!-- Other User List ************************************************************************************************* -->
+        <h3>Other Users not on your friend's list:</h3>
+        <table border="1">
+            <tr>
+                <th>Alias</th>
+                <th>Action</th>
+            </tr>
+            {% for user in users %}
+                {% if user not in you.friends.all %}
+                    <tr>
+                        <td><a href="/home/show/{{user.id}}">{{user.alias}}</a></td>
+                        <td>
+                            <form action="/home/addFriend/{{user.id}}" method="post">
+                                {%csrf_token%}
+                                <input type="submit" value="Add">
+                            </form>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </body>
+</html>
